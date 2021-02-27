@@ -16,10 +16,6 @@ function catchErrors(fn) {
   return (req, res, next) => fn(req, res, next).catch(next);
 }
 
-const {
-  PORT: port = 3000,
-} = process.env;
-
 async function index(req, res) {
   const errors = [];
   const formData = {

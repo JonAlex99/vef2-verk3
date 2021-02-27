@@ -45,10 +45,10 @@ async function admin(req, res) {
   }
 
   const lengdin = await lengdLista();
-  const admin = 1;
+  const adminOn = 1;
 
   res.render('admin', {
-    errors, formData, registrations, result, page, lengdin, admin,
+    errors, formData, registrations, result, page, lengdin, adminOn,
   });
 }
 

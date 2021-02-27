@@ -70,7 +70,6 @@ export async function insert({
 export async function deleteRow(id) {
   const q = 'DELETE FROM signatures WHERE id = $1';
   const deletResult = await query(q, id);
-  console.log(deletResult);
 
   return deletResult.rows;
 }

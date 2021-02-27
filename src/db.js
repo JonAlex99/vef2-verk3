@@ -67,6 +67,30 @@ export async function insert({
   return success;
 }
 
+export async function deleteRow(id) {
+  const q = 'DELETE FROM signatures WHERE id = $1';
+  const deletResult = await query(q, id);
+  console.log(deletResult);
+
+  return deletResult.rows;
+}
+
+export async function lengdLista() {
+  let result = 0;
+  try {
+    const q = 'SELECT COUNT(name) FROM signatures';
+    const lengdResult = await query(q);
+
+    if (lengdResult && lengdResult.rows) {
+      result = Number(lengdResult.rows[0].count);
+    }
+  } catch (e) {
+    console.error('Error selecting length', e);
+  }
+
+  return result;
+}
+
 /**
  * List all registrations from the registration table.
  *
@@ -75,7 +99,7 @@ export async function insert({
 export async function list(offset = 0, limit = 50) {
   let result = [];
   try {
-    const q = 'SELECT name, nationalId, comment, anonymous, signed FROM signatures ORDER BY signed DESC OFFSET $1 LIMIT $2';
+    const q = 'SELECT id, name, nationalId, comment, anonymous, signed FROM signatures ORDER BY signed DESC OFFSET $1 LIMIT $2';
     const queryResult = await query(q, [offset, limit]);
 
     if (queryResult && queryResult.rows) {

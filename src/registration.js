@@ -1,7 +1,7 @@
 import express from 'express';
 import xss from 'xss';
 import pkg from 'express-validator';
-import { list, insert } from './db.js';
+import { list, insert, lengdLista } from './db.js';
 
 const { body, validationResult } = pkg;
 export const router = express.Router();
@@ -29,35 +29,39 @@ async function index(req, res) {
     comment: '',
   };
 
-  let { offset = 0, limit = 50 } = req.query;
-  offset = Number(offset);
-  limit = Number(limit);
+  let { page = 1 } = req.query;
+  page = Number(page);
+  const offset = Number((page - 1) * 50);
+  const limit = Number(page * 50);
 
   const registrations = await list(offset, limit);
 
   const result = {
-    _links: {
+    links: {
       self: {
-        href: `http://localhost:${port}/?offset=${offset}&limit=${limit}`,
+        href: `/?page=${page}`,
       },
     },
     items: registrations,
   };
 
   if (offset > 0) {
-    result._links.prev = {
-      href: `http://localhost:${port}/?offset=${offset - limit}&limit=${limit}`,
+    result.links.prev = {
+      href: `/?page=${page - 1}`,
     };
   }
 
   if (registrations.length <= limit) {
-    result._links.next = {
-      href: `http://localhost:${port}/?offset=${Number(offset) + limit}&limit=${limit}`,
+    result.links.next = {
+      href: `/?page=${page + 1}`,
     };
   }
 
+  const lengdin = await lengdLista();
+  const admin = 0;
+
   res.render('index', {
-    errors, formData, registrations,
+    errors, formData, registrations, result, page, lengdin, admin,
   });
 }
 

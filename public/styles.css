@@ -187,3 +187,26 @@ button:hover {
   word-break: break-all;
   overflow-wrap: anywhere;
 }
+
+.fjUndirskrift{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.8rem;
+}
+
+.paging{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.deleteButton button{
+  font-size: 1rem;
+  margin-top: 0;
+}
+
+.deleteButton form{
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}

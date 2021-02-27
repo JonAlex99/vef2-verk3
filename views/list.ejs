@@ -1,6 +1,9 @@
 <section class="registrations">
   <h2 class="registrations__title">Undirskriftir</h2>
 
+  <div class="fjUndirskrift">
+    <p>Fjöldi undirskrifta: <%= lengdin %></p>
+  </div>
   <% if (registrations.length === 0) { %>
     <p class="registrations__empty">Engar undirskriftir.</p>
   <% } else { %>
@@ -9,15 +12,48 @@
         <th>Dags</th>
         <th>Nafn</th>
         <th>Athugasemd</th>
+        <% if (admin) { %>
+        <th class="eyða-header">Eyða</th>
+        <% } %>
       </tr>
       <% registrations.forEach((row) => { %>
         <tr>
           <td class="date"><%= formatDate(row.signed) %></td>
           <td class="name"><%= row.anonymous ? 'Nafnlaust' : row.name %></td>
           <td class="comment"><%= row.comment %></td>
+          <% if (admin) { %>
+            <td class="deleteButton">
+              <form method="post" action="/admin/delete">
+                <input type="hidden" name="id" value="<%= row.id %>">
+                <button>Eyða</button>
+              </form>
+            </td>
+          <% } %>
         </tr>
       <% }) %>
       </tr>
     </table>
   <% } %>
+<div class="paging">
+  <div>
+    <% if (page > 1) { %>
+      <a href="<%=result.links.prev.href%>">Prev page</a>
+    <% } else { %>
+      <u>Prev page</u>
+    <% } %>
+  </div>
+
+  <div>
+    <p>Síða <%= page %> af <%= Math.ceil(lengdin/50)%></p>
+  </div>
+
+  <div>
+    <% if (page <= lengdin/50) { %>
+      <a href="<%=result.links.next.href%>">Next page</a>
+    <% } else { %>
+      <u>Next page</u>
+    <% } %>
+  </div>
+</div>
+
 </section>

@@ -9,7 +9,9 @@ const readFileAsync = util.promisify(readFile);
 async function mock(n) {
   for (let i = 0; i < n; i++) {
     const name = faker.name.findName();
-    const kt = Math.floor(Math.random() * 9000000000) + 1000000000;
+    let kt = Math.floor(Math.random() * 10000000000);
+    kt = '0000000000' + kt.toString();
+    kt = kt.substring(kt.length - 10, kt.length);
     let ath = '';
     if (Math.random() < 0.5) ath = faker.lorem.sentence();
     let nafnlaus = false;

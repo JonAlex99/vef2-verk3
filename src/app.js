@@ -8,15 +8,24 @@ import pkg from 'date-fns';
 
 import passport from './login.js';
 import { router as registrationRouter } from './registration.js';
-//import { router as adminRoute } from './admin.js';
+import { router as adminRoute } from './admin.js';
 
 const { format } = pkg;
 dotenv.config();
+const app = express();
 
 const {
   PORT: port = 3000,
   DATABASE_URL: connectionString,
+  SESSION_SECRET: sessionSecret,
 } = process.env;
+
+app.use(session({
+  secret: sessionSecret,
+  resave: false,
+  saveUninitialized: false,
+  maxAge: 7 * 24 * 60 * 60 * 1000, // vika
+}));
 
 if (!connectionString) {
   console.error('Vantar gögn í env');
@@ -24,7 +33,6 @@ if (!connectionString) {
 }
 
 // gamalt frá óla, verkefni 2
-const app = express();
 
 const path = dirname(fileURLToPath(import.meta.url));
 
@@ -62,7 +70,10 @@ app.locals.formatDate = (str) => {
   return date;
 };
 
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/', registrationRouter);
+app.use('/admin', adminRoute);
 
 /**
  * Middleware sem sér um 404 villur.

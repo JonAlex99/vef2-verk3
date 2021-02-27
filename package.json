@@ -4,8 +4,7 @@
   "description": "",
   "main": "./src/app.js",
   "engines": {
-    "node": ">= 14",
-    "npm": "7.5.4"
+    "node": ">= 14"
   },
   "scripts": {
     "dev": "nodemon ./src/app.js",

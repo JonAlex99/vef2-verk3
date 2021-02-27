@@ -7,10 +7,11 @@ const schemaFile = './sql/schema.sql';
 const readFileAsync = util.promisify(readFile);
 
 async function mock(n) {
-  for (let i = 0; i < n; i++) {
+  for (let i = 0; i < n; i += 1) {
     const name = faker.name.findName();
     let kt = Math.floor(Math.random() * 10000000000);
-    kt = '0000000000' + kt.toString();
+    const temp = '0000000000';
+    kt = temp + kt.toString();
     kt = kt.substring(kt.length - 10, kt.length);
     let ath = '';
     if (Math.random() < 0.5) ath = faker.lorem.sentence();
@@ -24,6 +25,7 @@ async function mock(n) {
       INSERT INTO signatures (name, nationalId, comment, anonymous, signed)
       VALUES ($1, $2, $3, $4, $5)`;
 
+    // eslint-disable-next-line no-await-in-loop
     await query(q, [name, kt, ath, nafnlaus, sign]);
   }
 }

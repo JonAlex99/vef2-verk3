@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { query } from './db.js';
 
 export async function findByUsername(username) {

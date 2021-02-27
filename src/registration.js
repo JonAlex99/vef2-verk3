@@ -54,10 +54,10 @@ async function index(req, res) {
   }
 
   const lengdin = await lengdLista();
-  const admin = 0;
+  const adminOn = 0;
 
   res.render('index', {
-    errors, formData, registrations, result, page, lengdin, admin,
+    errors, formData, registrations, result, page, lengdin, adminOn,
   });
 }
 
